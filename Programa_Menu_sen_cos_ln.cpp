@@ -4,11 +4,14 @@ using namespace std;
 
 
 int Potencia(int base, int expo);
-int Factorial(int n);
+int Factorial(int n);	
+double sen(int x, int n);
+double cos(int x, int n);
+double ln(int x, int n);
 int main()
 {
-	int opcion,x,n;
-	float resultado = 0;
+	float  x, n;
+	int opcion;
 	cout << "\n-------------------Menu--------------------\n";
 	cout << "\n3.-Sacar Coseno.";
 	cout << "\n2.-Sacar Seno.";
@@ -16,20 +19,15 @@ int main()
 	cout << "\n0.-Salir.";
 	cout << "\nIngresa el numero de la opcion deseada: \n>";
 	cin >> opcion;
-	do 
+	do
 	{
-		if(opcion == 3)
+		if (opcion == 3)
 		{
 			cout << "Ingresa el valor de x para sacar Coseno: \n>";
 			cin >> x;
 			cout << "\nIngresa el numero de la serie: \n>";
 			cin >> n;
-			resultado = 1;
-			for (int i = 2; i <= n; i+=2)
-			{
-				resultado -= (float)Potencia(x, i) / (float)Factorial(i);
-			}
-			cout << "\nResultado: " << resultado;
+			cout << "\nCoseno: " << cos(x,n);
 		}
 		else if (opcion == 2)
 		{
@@ -37,24 +35,15 @@ int main()
 			cin >> x;
 			cout << "\nIngresa el numero de la serie: \n>";
 			cin >> n;
-			for (int i = 1; i <= n; i++)
-			{
-				resultado -= (float)Potencia((1 / i)*(x - 1 / x), i); 
-			}
-			cout << "\nResultado: " << resultado;
+			cout << "\nLogaritmo natural: " << ln(x, n);
 		}
-		else if(opcion == 1)
+		else if (opcion == 1)
 		{
 			cout << "Ingresa el valor de x para sacar Ln: \n>";
 			cin >> x;
 			cout << "\nIngresa el numero de la serie: \n>";
 			cin >> n;
-			resultado = x;
-			for (int i = 3; i <= n; i += 2)
-			{
-				resultado -= (float)Potencia(x, i) / (float)Factorial(i);
-			}
-			cout << "\nResultado: " << resultado;
+			cout << "\nSeno: " << sen(x, n);
 		}
 		if (opcion != 0)
 		{
@@ -62,7 +51,7 @@ int main()
 			cout << "\n\nIngresa el numero de la siguiente operacion  o (0) para salir. \n>";
 			cin >> opcion;
 		}
-	}while(opcion != 0);
+	} while (opcion != 0);
 
 	getchar();
 	return 0;
@@ -86,4 +75,43 @@ int Factorial(int n)
 		fac *= y;
 	}
 	return fac;
+}
+
+double sen(int x, int n)
+{
+	int sig = -1;
+	int ov = 3;
+	float suma = x;
+	for (int i = 1; i <= n; i ++)
+	{
+		suma += (float)Potencia(x, ov) / (float)Factorial(ov) * sig;
+		ov += 2;
+		sig *= -1;
+	}
+	return suma;
+}
+
+double cos(int x, int n)
+{
+	int sig = 1;
+	int ov = 0;
+	float suma = 0;
+	for (int i = 2; i <= n; i += 2)
+	{
+		suma  += (float)Potencia(x, ov) / (float)Factorial(ov) * sig;
+		ov += 2;
+		sig *= -1; 
+
+	}
+	return suma; 
+}
+
+double ln(int x, int n)
+{
+	float suma = 0;
+	for (int i = 1; i <= n; i++)
+	{
+		suma += (1.0 / i) * (float)Potencia((x - 1)/x, i);
+	}
+	return suma;
 }
